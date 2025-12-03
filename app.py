@@ -3,6 +3,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import yaml
 import re
+from pathlib import Path   # YANGI
+
 import pyarrow
 import pyarrow.parquet
 import fastparquet
@@ -12,13 +14,16 @@ st.set_page_config(
     layout="wide",
 )
 
+BASE_DIR = Path(__file__).resolve().parent
+
 
 @st.cache_data
 def load_and_prepare(folder: str):
-    base_path = f"d:/Downloads/task_2/{folder}"
-    orders_path = f"{base_path}/orders.parquet"
-    users_path = f"{base_path}/users.csv"
-    books_path = f"{base_path}/books.yaml"
+
+    folder_path = BASE_DIR / folder         
+    orders_path = folder_path / "orders.parquet"
+    users_path  = folder_path / "users.csv"
+    books_path  = folder_path / "books.yaml"
 
     orders = pd.read_parquet(orders_path, engine="fastparquet")
     users = pd.read_csv(users_path)
